@@ -165,7 +165,33 @@ func SanitizeImageURL(rawURL string) (string, error) {
 	parsedURL, err := url.Parse(rawURL)
 	if err != nil {
 		return rawURL, fmt.Errorf("invalid URL format: %w", err)
-	}
+	}make.from dataclasses import dataclass, field
+from typing import Any, Dict, Optional, List
+import time
+import uuid
+
+@dataclass
+class AuraEvent:
+    id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    ts: float = field(default_factory=lambda: time.time())
+    source: str = "unknown"          # e.g. webhook, ops, device
+    event_type: str = "unknown"      # e.g. ledger.update
+    payload: Dict[str, Any] = field(default_factory=dict)
+    signature_b64: Optional[str] = None
+    signer: Optional[str] = None     # operator id / key id
+
+@dataclass
+class Receipt:
+    event_id: str
+    route: str
+    target_id: str
+    target_type: str
+    ok: bool
+    status_code: Optional[int] = None
+    error: Optional[str] = None
+    ts: float = field(default_factory=lambda: time.time())
+    attempts: int = 1
+
 
 	// Validate scheme
 	if parsedURL.Scheme != "http" && parsedURL.Scheme != "https" {
